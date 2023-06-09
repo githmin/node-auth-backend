@@ -3,6 +3,9 @@ const express = require("express");
 const app = express();
 const port = process.env.port || 3001;
 
+const cookieParser = require("cookie-parser");
+
+
 const authHandeller = require("./controller/authHandeller");
 
 app.use(express.urlencoded({ extended: false }));

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 const user = require("../model/user");
 
@@ -21,4 +22,21 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const userObj = await user.findOne({ email });
+
+  if (!userObj) {
+    res.sendStatus(403);
+  }
+
+  if (userObj.password !== password) {
+    res.send("Invalid Password");
+  }
+
+  delete userObj.password;
+  const token = await jwt.sign({ userObj }, process.env.jwtSecret);
+  res.cookie("token", token);
+  res.sendStatus(200);
+});
 module.exports = router;
