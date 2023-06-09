@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
   if (!userObj) {
     res.sendStatus(403);
   } else if (userObj.password !== password) {
-    res.send("Invalid Password");
+    res.sendStatus(403);
   } else {
     delete userObj.password;
     const token = await jwt.sign({ userObj }, process.env.jwtSecret);
