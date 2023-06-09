@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const authHandeller = require("./controller/authHandeller");
+
 const port = process.env.port || 3001;
 
-const cors = require("cors");
-
-const authHandeller = require("./controller/authHandeller");
+// Middleware
 app.use(
   cors({
     credentials: true,
@@ -27,12 +28,15 @@ const connectDB = async () => {
     });
 };
 
+// Auth Route
 app.use("/api/auth", authHandeller);
 
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
+
+// Implemented this way to deploy on serverless
 connectDB().then(() => {
   app.listen(port, () => {
     console.log(`Running on port ${port}`);
