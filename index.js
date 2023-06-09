@@ -9,7 +9,7 @@ const authHandeller = require("./controller/authHandeller");
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://auth-frontend-react.vercel.app"],
   })
 );
 app.use(express.json());
