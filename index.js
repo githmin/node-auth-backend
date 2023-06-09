@@ -11,7 +11,16 @@ app.use(
     credentials: true,
     origin: ["http://localhost:3000", "https://auth-frontend-react.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    allowedHeaders: ["Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Origin",
+      "X-Requested-With",
+      "Accept",
+      "x-client-key",
+      "x-client-token",
+      "x-client-secret",
+      "Authorization",
+    ],
     credentials: true,
   })
 );
