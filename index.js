@@ -10,9 +10,6 @@ app.use(
   cors({
     credentials: true,
     origin: ["http://localhost:3000", "https://auth-frontend-react.vercel.app"],
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    allowedHeaders: ["Authorization"],
-    credentials: true,
   })
 );
 app.use(express.json());
