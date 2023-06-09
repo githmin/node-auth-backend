@@ -6,7 +6,7 @@ const user = require("../model/user");
 
 router.post("/register", async (req, res) => {
   if (req.body.email && req.body.password) {
-    if (await user.findOne({ email : req.body.email  })) {
+    if (await user.findOne({ email: req.body.email })) {
       res.sendStatus(403);
     } else {
       const newUser = new user({
@@ -35,15 +35,14 @@ router.post("/login", async (req, res) => {
 
   if (!userObj) {
     res.sendStatus(403);
-  }
-
-  if (userObj.password !== password) {
+  } else if (userObj.password !== password) {
     res.send("Invalid Password");
+  } else {
+    delete userObj.password;
+    const token = await jwt.sign({ userObj }, process.env.jwtSecret);
+    res.cookie("token", token);
+    res.sendStatus(200);
   }
-
-  delete userObj.password;
-  const token = await jwt.sign({ userObj }, process.env.jwtSecret);
-  res.cookie("token", token);
-  res.sendStatus(200);
 });
+
 module.exports = router;
