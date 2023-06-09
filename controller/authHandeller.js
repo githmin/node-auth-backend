@@ -5,20 +5,27 @@ const jwt = require("jsonwebtoken");
 const user = require("../model/user");
 
 router.post("/register", async (req, res) => {
-  const newUser = new user({
-    email: req.body.email,
-    password: req.body.password,
-    userType: req.body.userType,
-  });
+  if (req.body.email && req.body.password) {
+    if (await user.findOne({ email : req.body.email  })) {
+      res.sendStatus(403);
+    } else {
+      const newUser = new user({
+        email: req.body.email,
+        password: req.body.password,
+      });
 
-  try {
-    await newUser.save();
-    res.sendStatus(200);
-  } catch (e) {
-    console.log(e);
-    res.status(400).json({
-      error: e,
-    });
+      try {
+        await newUser.save();
+        res.sendStatus(200);
+      } catch (e) {
+        console.log(e);
+        res.status(400).json({
+          error: e,
+        });
+      }
+    }
+  } else {
+    res.sendStatus(400);
   }
 });
 
