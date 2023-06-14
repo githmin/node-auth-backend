@@ -8,7 +8,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.callbackURL,
+      callbackURL: process.env.googleCallbackURL,
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
@@ -16,21 +16,18 @@ passport.use(
   )
 );
 
-// FACEBOOK_APP_ID = "your id";
-// FACEBOOK_APP_SECRET = "your id";
-
-// passport.use(
-//   new FacebookStrategy(
-//     {
-//       clientID: FACEBOOK_APP_ID,
-//       clientSecret: FACEBOOK_APP_SECRET,
-//       callbackURL: "/auth/facebook/callback",
-//     },
-//     function (accessToken, refreshToken, profile, done) {
-//       done(null, profile);
-//     }
-//   )
-// );
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: process.env.facebookCallbackURL,
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   done(null, user);

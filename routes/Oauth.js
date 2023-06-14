@@ -1,7 +1,6 @@
+require("dotenv").config();
 const router = require("express").Router();
 const passport = require("passport");
-
-const CLIENT_URL = "http://localhost:3000/";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -23,27 +22,33 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL);
+  res.redirect(process.env.CLIENT_URL);
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: CLIENT_URL,
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: "/login/failed",
   })
 );
 
-// router.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
+router.get(
+  "/facebook",
+  passport.authenticate("facebook")
+);
 
-// router.get(
-//   "/facebook/callback",
-//   passport.authenticate("facebook", {
-//     successRedirect: CLIENT_URL,
-//     failureRedirect: "/login/failed",
-//   })
-// );
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: process.env.CLIENT_URL,
+    failureRedirect: "/login/failed",
+  })
+);
 
-module.exports = router
+module.exports = router;
